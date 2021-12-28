@@ -12,7 +12,7 @@ print("5.Removing existing account")
 print("6.View customer's list")
 print("7.Exit\n\n")
 
-choice = input("Enter your choice:\n")
+choice = int(input("Enter your choice:\n"))
 
 if choice == 1:
     username = input("Enter your username:")
