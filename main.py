@@ -16,7 +16,7 @@ choice = int(input("Enter your choice:\n"))
 
 if choice == 1:
     username = input("Enter your username:")
-    password = int(input("Enter your password:"))
+    password = input("Enter your password:")
     registration(username, password)
 
 elif choice == 2:

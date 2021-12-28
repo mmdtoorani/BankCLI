@@ -14,7 +14,7 @@ connect('BankCLIDB')
 
 class User(DynamicDocument):
     username = StringField(required=True, max_length=255)
-    password = IntField(required=True, min_length=6)
+    password = StringField(required=True, min_length=6)
 
     meta = {
         'allow_inheritance': True
