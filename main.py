@@ -1,5 +1,4 @@
-import auth
-import models
+from auth import registration
 
 print("Custom Account Banking Management System")
 print("Created By MohamadHosein Toorani & Maede Naderloo\n")
@@ -13,19 +12,22 @@ print("5.Removing existing account")
 print("6.View customer's list")
 print("7.Exit\n\n")
 
-entity = input("Enter your choice:\n")
+choice = input("Enter your choice:\n")
 
-if entity == 1:
+if choice == 1:
+    username = input("Enter your username:")
+    password = int(input("Enter your password:"))
+    registration(username, password)
+
+elif choice == 2:
     pass
-elif entity == 2:
+elif choice == 3:
     pass
-elif entity == 3:
+elif choice == 4:
     pass
-elif entity == 4:
+elif choice == 5:
     pass
-elif entity == 5:
+elif choice == 6:
     pass
-elif entity == 6:
-    pass
-elif entity == 7:
+elif choice == 7:
     pass
