@@ -3,7 +3,11 @@ import secrets
 
 
 def make_hash(password):
-    return hashlib.md5(str.encode(password)).hexdigest()
+    """Convert user's password to hash using md5 algorithm."""
+
+    hash_obj = hashlib.md5(str.encode(password))  # <md5 hash object>
+    hexdigest = hash_obj.hexdigest()
+    return hexdigest
 
 
 def generate_token():

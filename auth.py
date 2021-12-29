@@ -1,16 +1,14 @@
-"""
-1.Registration
-2.Remove
-"""
-
 from models import User, Account
 from utils import make_hash, generate_token
 
 
 def registration(username: str, password: str):
+    """Creation a user and then his/her account"""
+
     hashed_pass = make_hash(password)
     user = User(username=username, password=hashed_pass)
     user.save()
+
     account = Account(
         user=user,
         address=generate_token(),
@@ -26,6 +24,7 @@ def is_user_exist(username: str):
 
 
 def is_user_valid(username, password):
+    """Check for correct password entry by the user"""
     if User.objects.get(username=username).password == make_hash(password):
         return True
 
@@ -33,11 +32,20 @@ def is_user_valid(username, password):
 
 
 def is_name_valid(name: str) -> bool:
+    """
+    Check for first name or last name validation.
+    for each letter of the word entered by the user as a name,
+    it must be only uppercase and lowercase letters, otherwise it's invalid
+
+    """
     alphabet_upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
     alphabet_lower = "abcdefghijklmnopqrstuvwxyz"
+
     chars = [i for i in name]
     result_list = [True if i in alphabet_lower or i in alphabet_upper else False for i in chars]
-    if all(result_list):
+
+    if all(result_list):  # This will be True, if all the indexes in the result_list are True
         return True
 
     return False
