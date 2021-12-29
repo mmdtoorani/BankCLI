@@ -25,6 +25,7 @@ if choice == 1:
 elif choice == 2:
     username = input("Enter your username:")
     password = input("Enter your password:")
+    msg = ""
 
     if is_user_exist(username):
         if is_user_valid(username, password):
@@ -37,8 +38,9 @@ elif choice == 2:
                 except ValueError:
                     msg = "Invalid input! Try again"
 
-                collect_user_info(username, first_name, last_name, age)
-                msg = 'your account has been updated!'
+                if msg is not "Invalid input! Try again":
+                    collect_user_info(username, first_name, last_name, age)
+                    msg = 'your account has been updated!'
 
             else:
                 msg = "Invalid input! Try again"
