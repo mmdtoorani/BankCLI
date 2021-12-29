@@ -5,6 +5,7 @@ from mongoengine import (
     ReferenceField,
     FloatField,
     IntField,
+    DateField,
 
     CASCADE,
 )
@@ -13,7 +14,10 @@ connect('BankCLIDB')
 
 
 class User(DynamicDocument):
-    username = StringField(required=True, max_length=255)
+    first_name = StringField(max_length=255)
+    last_name = StringField(max_length=255)
+    age = IntField(min_length=18)
+    username = StringField(unique=True, required=True, max_length=255)
     password = StringField(required=True, min_length=6)
 
     meta = {
@@ -25,6 +29,8 @@ class Account(DynamicDocument):
     user = ReferenceField('User', reverse_delete_rule=CASCADE)
     address = StringField(max_length=255)
     finance = FloatField(default=0, min_value=0)
+    number_of_transactions = IntField(default=0)
+    date_of_last_transaction = DateField()
 
 # user = User(username='mohamad', password='1234567').save()
 # account_mmd = Account(user=user, address='adres', finance=0).save()
