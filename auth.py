@@ -51,6 +51,18 @@ def is_name_valid(name: str) -> bool:
     return False
 
 
+def user_authenticated(username, password):
+    if is_user_exist(username):
+        if is_user_valid(username, password):
+            return True
+        else:
+            msg = "Invalid password!"
+    else:
+        msg = "You have not registered!"
+
+    return False, msg
+
+
 def collect_user_info(username, first_name, last_name, age):
     user = User.objects.get(username=username)
     user.update(first_name=first_name, last_name=last_name, age=age)

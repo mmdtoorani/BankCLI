@@ -1,4 +1,4 @@
-from auth import registration, is_user_exist, is_user_valid, collect_user_info, is_name_valid
+from auth import *
 from envvar import *
 
 print(TITLE)
@@ -14,8 +14,11 @@ if choice == 1:
     password = input("Enter your password:")
 
     if not is_user_exist(username):
-        registration(username, password)
-        msg = "You registered successfully!"
+        if not len(password) < 6:
+            registration(username, password)
+            msg = "You registered successfully!"
+        else:
+            msg = "Your password is too short!"
     else:
         msg = "ERROR: User already exists...!"
 
@@ -25,7 +28,6 @@ if choice == 1:
 elif choice == 2:
     username = input("Enter your username:")
     password = input("Enter your password:")
-    msg = ""
 
     if is_user_exist(username):
         if is_user_valid(username, password):
@@ -35,6 +37,7 @@ elif choice == 2:
             if is_name_valid(first_name) and is_name_valid(last_name):
                 try:
                     int(age)
+                    msg = ""
                 except ValueError:
                     msg = "Invalid input! Try again"
 
@@ -56,7 +59,18 @@ elif choice == 3:
     pass
 
 elif choice == 4:
-    pass
+    username = input("Enter your username:")
+    password = input("Enter your password:")
+
+    if user_authenticated(username, password):
+        first_name = User.objects.get(username=username).first_name
+        last_name = User.objects.get(username=username).last_name
+        age = User.objects.get(username=username).age
+
+        print(f"username: {username}\nfirst name: {first_name}\nlast name: {last_name}\nage: {age}")
+    else:
+        print(user_authenticated(username, password)[1])  # it prints the message
+
 
 elif choice == 5:
     pass
@@ -66,3 +80,7 @@ elif choice == 6:
 
 elif choice == 7:
     pass
+
+else:
+    msg = "Invalid input! Try again later"
+    print(msg)
