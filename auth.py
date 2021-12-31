@@ -26,7 +26,13 @@ def users_list():
 
 
 class UserAuthentication:
-    msg = None
+    """
+    Management and handling all about user authentication as registration, collection, removing
+    and checking for validations;
+    and the main usage of this Class is communication
+    between the models and file main.py .
+
+    """
 
     def __init__(self, username, password, age=None, first_name=None, last_name=None):
         self.username = username
@@ -69,6 +75,7 @@ class UserAuthentication:
     @property
     def is_user_valid(self):
         """Check for correct password entry by the user"""
+
         if User.objects.get(username=self.username).password == make_hash(self.password):
             return True
         return False
@@ -86,6 +93,12 @@ class UserAuthentication:
         return False
 
     def collect_user_info(self):
+        """
+        Completing information about the user
+        Update user's document in database
+
+        """
+
         if is_name_valid(self.first_name) and is_name_valid(self.last_name):
             try:
                 int(self.age)
@@ -112,6 +125,7 @@ class UserAuthentication:
             account = Account.objects.get(user=user_id)
             print(f"\nusername: {self.username}\n")
 
+            # each item is "Not set" if it is null in database
             if self.first_name:
                 print(f"First name: {self.first_name}\n")
             else:
