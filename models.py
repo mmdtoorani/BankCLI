@@ -14,15 +14,18 @@ connect('BankCLIDB')
 
 
 class User(DynamicDocument):
-    first_name = StringField(max_length=255)
-    last_name = StringField(max_length=255)
-    age = IntField(min_length=18)
+    first_name = StringField(max_length=255, null=True)
+    last_name = StringField(max_length=255, null=True)
+    age = IntField(min_length=18, null=True)
     username = StringField(unique=True, required=True, max_length=255)
     password = StringField(required=True, min_length=6)
 
     meta = {
         'allow_inheritance': True
     }
+
+    def __repr__(self):
+        return self.username
 
 
 class Account(DynamicDocument):
