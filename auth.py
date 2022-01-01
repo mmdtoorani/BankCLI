@@ -1,5 +1,13 @@
 from models import User, Account
-from utils import make_hash, generate_token
+import hashlib
+
+
+def make_hash(password):
+    """Convert user's password to hash using md5 algorithm."""
+
+    hash_obj = hashlib.md5(str.encode(password))  # <md5 hash object>
+    hexdigest = hash_obj.hexdigest()
+    return hexdigest
 
 
 def is_name_valid(name: str) -> bool:
@@ -60,8 +68,7 @@ class UserAuthentication:
                 user.save()
 
                 account = Account(
-                    user=user,
-                    address=generate_token(),
+                    user=user
                 )
                 account.save()
                 msg = "You registered successfully!"
