@@ -7,5 +7,3 @@
 
 ![Inkedexp1_L6I](https://user-images.githubusercontent.com/84853720/147878630-0f4fb6fe-08c7-43ec-8810-77c1bfff7a17.jpg)
 
-![Inkedexp2_LI](https://user-images.githubusercontent.com/84853720/147878735-6b005924-6298-45fc-82a3-59d9d235c902.jpg)
-
