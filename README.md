@@ -5,5 +5,4 @@
 
 **You should just choose an option and follow system requirement**
 
-![Inkedexp1_L6I](https://user-images.githubusercontent.com/84853720/147878630-0f4fb6fe-08c7-43ec-8810-77c1bfff7a17.jpg)
 
