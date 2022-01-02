@@ -127,33 +127,40 @@ class UserAuthentication:
 
         print(msg)
 
-    def show_info(self):
+    def get_info_from_db(self):
         if self.is_authenticated:
-            user_id = User.objects.get(username=self.username).id
-            account = Account.objects.get(user=user_id)
-            print(f"\nusername: {self.username}\n")
+            user_by_username = User.objects.get(username=self.username)
+            self.first_name = user_by_username.first_name
+            self.last_name = user_by_username.last_name
+            self.age = user_by_username.age
 
-            # each item is "Not set" if it is null in database
-            if self.first_name:
-                print(f"First name: {self.first_name}\n")
-            else:
-                print("First name: Not set\n")
+    def show_info(self):
+        self.get_info_from_db()
+        user_id = User.objects.get(username=self.username).id
+        account = Account.objects.get(user=user_id)
+        print(f"\nusername: {self.username}\n")
 
-            if self.last_name:
-                print(f"Last name: {self.last_name}\n")
-            else:
-                print("Last name: Not set\n")
+        # each item is "Not set" if it is null in database
+        if self.first_name:
+            print(f"First name: {self.first_name}\n")
+        else:
+            print("First name: Not set\n")
 
-            if self.age:
-                print(f"Age: {self.age}\n")
-            else:
-                print("Age: Not set\n")
+        if self.last_name:
+            print(f"Last name: {self.last_name}\n")
+        else:
+            print("Last name: Not set\n")
 
-            print(
-                f"finance: {account.finance}\n\n"
-                f"number of transactions: {account.number_of_transactions}\n\n"
-                f"date of last transaction: {account.date_of_last_transaction}"
-            )
+        if self.age:
+            print(f"Age: {self.age}\n")
+        else:
+            print("Age: Not set\n")
+
+        print(
+            f"finance: {account.finance}\n\n"
+            f"number of transactions: {account.number_of_transactions}\n\n"
+            f"date of last transaction: {account.date_of_last_transaction}"
+        )
 
     def remove(self):
         if self.is_authenticated:
