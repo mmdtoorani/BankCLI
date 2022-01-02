@@ -29,10 +29,6 @@ def is_name_valid(name: str) -> bool:
     return False
 
 
-def users_list():
-    return User.objects.all()
-
-
 class UserAuthentication:
     """
     Management and handling all about user authentication as registration, collection, removing
@@ -42,7 +38,7 @@ class UserAuthentication:
 
     """
 
-    def __init__(self, username, password, age=None, first_name=None, last_name=None):
+    def __init__(self, username, password=None, age=None, first_name=None, last_name=None):
         self.username = username
         self.password = password
         self.age = age
@@ -59,21 +55,24 @@ class UserAuthentication:
         """Creation a user and then his/her account"""
 
         if not self.is_user_exist:
-            if not len(self.password) < 6:
-                hashed_pass = make_hash(self.password)
-                user = User(
-                    username=self.username,
-                    password=hashed_pass
-                )
-                user.save()
+            if self.password:
+                if not len(self.password) < 6:
+                    hashed_pass = make_hash(self.password)
+                    user = User(
+                        username=self.username,
+                        password=hashed_pass
+                    )
+                    user.save()
 
-                account = Account(
-                    user=user
-                )
-                account.save()
-                msg = "You registered successfully!"
+                    account = Account(
+                        user=user
+                    )
+                    account.save()
+                    msg = "You registered successfully!"
+                else:
+                    msg = "Your password is too short!"
             else:
-                msg = "Your password is too short!"
+                msg = "password does not entered!"
         else:
             msg = "ERROR: User already exists...!"
 
@@ -83,8 +82,10 @@ class UserAuthentication:
     def is_user_valid(self):
         """Check for correct password entry by the user"""
 
-        if User.objects.get(username=self.username).password == make_hash(self.password):
-            return True
+        if self.password:
+            if User.objects.get(username=self.username).password == make_hash(self.password):
+                return True
+
         return False
 
     @property
@@ -160,3 +161,58 @@ class UserAuthentication:
             user = User.objects.get(username=self.username)
             user.delete()
             print("User has been removed successfully!")
+
+
+def users_list():
+    return User.objects.all()
+
+
+class Transactions:
+    def __init__(self, amount=None, src_account=None, dest_account=None):
+        self.amount = amount
+        self.src_account = src_account
+        self.dest_account = dest_account
+
+    @staticmethod
+    def get_user_by_username(username):
+        return User.objects.get(username=username).id
+
+    def set_source_account(self, username):
+        src_user = self.get_user_by_username(username)
+        src_account = Account.objects.get(user=src_user)
+        return src_account
+
+    def set_destination_account(self, username):
+        dest_user = self.get_user_by_username(username)
+        dest_account = Account.objects.get(user=dest_user)
+        return dest_account
+
+    @property
+    def is_amount_valid(self):
+        try:
+            self.amount = float(self.amount)
+            if self.amount < self.src_account.finance:
+                return True
+            else:
+                print("Your assets are less than the amount entered")
+
+        except ValueError:
+            return False
+
+    def subtract(self):
+        src_user_final_finance = self.src_account.finance - self.amount
+        self.src_account.update(finance=src_user_final_finance)
+
+    def add(self):
+        dest_user_final_finance = self.dest_account.finance + self.amount
+        self.dest_account.update(finance=dest_user_final_finance)
+
+    def transfer(self, src_username, dest_username):
+        self.src_account = self.set_source_account(src_username)
+        self.dest_account = self.set_destination_account(dest_username)
+        if self.is_amount_valid:
+            self.subtract()
+            self.add()
+            print("The transaction was successful")
+        else:
+            print("Invalid input! Try again")
