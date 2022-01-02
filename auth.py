@@ -152,7 +152,6 @@ class UserAuthentication:
             print(
                 f"finance: {account.finance}\n\n"
                 f"number of transactions: {account.number_of_transactions}\n\n"
-                f"Your Token address: {account.address}\n\n"
                 f"date of last transaction: {account.date_of_last_transaction}"
             )
 
@@ -189,6 +188,12 @@ class Transactions:
 
     @property
     def is_amount_valid(self):
+        """
+        Checks that the amount must be converted to float
+        and be less than the asset
+
+        """
+
         try:
             self.amount = float(self.amount)
             if self.amount < self.src_account.finance:
@@ -208,6 +213,11 @@ class Transactions:
         self.dest_account.update(finance=dest_user_final_finance)
 
     def transfer(self, src_username, dest_username):
+        """
+        For transfer from source account to destination account,
+        amount must subtract from source account and add to destination account.
+        """
+
         self.src_account = self.set_source_account(src_username)
         self.dest_account = self.set_destination_account(dest_username)
         if self.is_amount_valid:
