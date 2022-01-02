@@ -30,6 +30,6 @@ class User(DynamicDocument):
 
 class Account(DynamicDocument):
     user = ReferenceField('User', reverse_delete_rule=CASCADE)
-    finance = FloatField(default=0, min_value=0)
+    finance = FloatField(min_value=0.0, default=10.0)
     number_of_transactions = IntField(default=0)
     date_of_last_transaction = DateField()
