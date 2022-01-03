@@ -1,6 +1,6 @@
 TITLE = "Custom Account Banking Management System"
 
-LICENCE = "Created By MohamadHosein Toorani & Maede Naderloo"
+LICENCE = "Created By MohamadHosein Toorani"
 
 OPTIONS = """
     1.Create new account
