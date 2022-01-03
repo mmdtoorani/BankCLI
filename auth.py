@@ -1,3 +1,5 @@
+import datetime
+
 from models import User, Account
 import hashlib
 
@@ -219,6 +221,11 @@ class Transactions:
         dest_user_final_finance = self.dest_account.finance + self.amount
         self.dest_account.update(finance=dest_user_final_finance)
 
+    def add_num_of_trx(self, username):
+        user = self.get_user_by_username(username)
+        count = Account.objects.get(user=user).number_of_transactions
+        return count + 1
+
     def transfer(self, src_username, dest_username):
         """
         For transfer from source account to destination account,
@@ -230,6 +237,17 @@ class Transactions:
         if self.is_amount_valid:
             self.subtract()
             self.add()
+
+            self.src_account.update(
+                date_of_last_transaction=datetime.datetime.now(),
+                number_of_transactions=self.add_num_of_trx(src_username)
+            )
+
+            self.dest_account.update(
+                date_of_last_transaction=datetime.datetime.now(),
+                number_of_transactions=self.add_num_of_trx(dest_username)
+            )
+
             print("The transaction was successful")
         else:
             print("Invalid input! Try again")
